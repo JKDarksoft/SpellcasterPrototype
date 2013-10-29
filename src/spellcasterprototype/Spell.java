@@ -5,6 +5,7 @@
 package spellcasterprototype;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,11 @@ public class Spell implements Serializable{
     int timeLeft;
     
     
+   public ArrayList<int[]> effList = new ArrayList<>();
+   
+   
+    
+    
     //--- DZIALANIE SPELLA -----------------------------------------------------
     
     /*--- LISTA MOZLIWYCH EFEKTOW ---
@@ -27,12 +33,15 @@ public class Spell implements Serializable{
      * ?? zmiana scenerii - jesli beda jakies scenerie, powinny wplywac na rozgrywke (?)
      * ?? zmiana w inna istote - daleka przyszlosc
      * 
-     * leczenie
+     * Heal
+     * InflictDamage
+     * EffectInvunrablility
+     * 
      * mozliwosc zrobienia wiecej niz 1 akcji w turze
-     * na cel dzialaja tylko zaklecia obszarowe
+     * //  na cel dzialaja tylko zaklecia obszarowe
      * niemoznosc rzucenia konkretnych zaklec
-     * niewrazliwosc na efekt
      * niewrazliwosc na obr
+     * niewrazliwosc na zaklecie
      * oblozenie efektu efektem
      * oblozenie zaklecia efektem
      * obnizenie Mocy
@@ -53,7 +62,6 @@ public class Spell implements Serializable{
      * wykluczenie zaklecia
      * wywolanie zaklecia
      * zablokowanie magicznego przedmiotu
-     * zadanie obr
      * zatrzymanie czasu
      * zmuszenie celu do rzucenia losowego zaklecia
      * zniszczenie jednorazowego przedmiotu celu
@@ -69,20 +77,32 @@ public class Spell implements Serializable{
     }
     
     
+    public void addEffect(int effIndex, int v1, int t){
+        int[] eff = new int[3];
+        eff[0] = effIndex;
+        eff[1] = v1;
+        eff[2] = t; 
+        effList.add(eff);
+    }
+    
+    
     public void execute(Mage caster, Mage target){
+        Effect ef = new Effect();
+        for(int i=0; i < effList.size(); i++){
+        int ti = effList.get(i)[0];
+        int tv1 = effList.get(i)[1];
+        int tt = effList.get(i)[2];
         
+        
+        if (ti == ef.iInflictDamage) ef.eInflictDamage(target, tv1, tt, tt);else
+        if (ti == ef.iHeal) ef.eHeal(target, tv1, tt, tt);
+       
+        }
  
     }
     
     
     
-//    
-//    public void inflictDamage(Mage tar){
-//        
-//        tar.hp = tar.hp - this.dmg;
-//        if (tar.hp < 1) tar.die();
-//    }
-//    
-//    
+
     
 }

@@ -28,38 +28,58 @@ public class MageList {
     public static File magesFile = new File("Mages.txt");
     
     
-    public static void addMage(String nam) throws IOException{
+    public static void addMage(String nam, ArrayList<Spell> sb ) throws IOException{
 
         
-        Mage newMage = new Mage();
+        Mage newMage = new Mage(nam);
         newMage.name = nam;
         newMage.maxHp = 100;
         newMage.hp = 100;
         newMage.power = 1;
         newMage.xp = 0;
         
-        newMage.acidRes = 0;
-        newMage.coldRes = 0;
-        newMage.elecRes = 0;
-        newMage.fireRes = 0;
-        newMage.magiRes = 0;
-        newMage.physRes = 0;
+//        newMage.acidRes = 0;
+//        newMage.coldRes = 0;
+//        newMage.elecRes = 0;
+//        newMage.fireRes = 0;
+//        newMage.magiRes = 0;
+//        newMage.physRes = 0;
         
-        
-        
-        
-        
+        newMage.spellBook = sb;
+
         mageList.add(newMage);
          
     }
     
     
-        public static void createMagesFile(Mage m)throws IOException{
+    public static void addMage(Mage m){
+        mageList.add(m);
+    }
+    
+    public static void removeMage(Mage m){
+        mageList.remove(m);
+    }
+    
+    public static void removeMage(String nam){
+                for (int i = 0; i < mageList.size(); i++) {
+            if (mageList.get(i).name == nam){
+                mageList.remove(mageList.get(i));
+                break;
+            }
+        }
+    }
+    
+        
+        public static void saveMageFile()throws IOException{
         ObjectOutputStream pl=null;
         
         try{
             pl=new ObjectOutputStream(new FileOutputStream(magesFile));
-            pl.writeObject(m);
+            //pl.writeObject(s);
+            
+            for(int i=0; i < mageList.size(); i++)
+            pl.writeObject(mageList.get(i));
+            
             pl.flush();
         }
         finally{
@@ -69,51 +89,15 @@ public class MageList {
     }
         
         
-        
-        public static void saveMagesFile(Mage m)throws IOException, ClassNotFoundException, FileNotFoundException{
-            try{
-        ArrayList<Mage> tlista = new ArrayList<>();
+        public static void loadMageFile()throws IOException,ClassNotFoundException{
         ObjectInputStream pl2=null;
-        Mage tm = null;
+        Mage m = null;
         try{
             pl2=new ObjectInputStream(new FileInputStream(magesFile));
             while(true){
-            tm=(Mage)pl2.readObject();
-            tlista.add(tm);
-            }
- 
-        } catch (EOFException ex) {
-
-            if(pl2!=null)
-                pl2.close();
- 
-            ObjectOutputStream pl=null;
-            try{
-                pl=new ObjectOutputStream(new FileOutputStream(magesFile));
-                for(int i=0; i < tlista.size(); i++)
-                    pl.writeObject(tlista.get(i));
- 
-                pl.writeObject(m);
-                pl.flush();
-            }
-            finally{
-                if(pl!=null)
-                    pl.close();
-            }
-        }
-            }catch (FileNotFoundException fnf){
-            createMagesFile(m);
-            }
-    }
-       
-        
-         public static void loadMagesFile()throws IOException,ClassNotFoundException{
-        ObjectInputStream pl2=null;
-        Spell m = null;
-        try{
-            pl2=new ObjectInputStream(new FileInputStream(magesFile));
-            while(true){
-            m=(Spell)pl2.readObject();
+            m=(Mage)pl2.readObject();
+            
+            mageList.add(m);
  
             System.out.println(m.name);
             }

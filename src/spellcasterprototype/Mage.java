@@ -4,6 +4,8 @@
  */
 package spellcasterprototype;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author JK
@@ -28,12 +30,12 @@ public class Mage {
          * zanim reszta dmg przejdzie na hp
          */
     
-    int physRes;
-    int magiRes;
-    int fireRes;
-    int coldRes;
-    int acidRes;
-    int elecRes;
+//    int physRes;
+//    int magiRes;
+//    int fireRes;
+//    int coldRes;
+//    int acidRes;
+//    int elecRes;
     
     //--------------------------------------
     
@@ -43,38 +45,49 @@ public class Mage {
          * (straszna nazwa - jakis zamiennik?)
          */
     
-    int physInv;
-    int magiInv;
-    int fireInv;
-    int coldInv;
-    int acidInv;
-    int elecInv;
+//    int physInv;
+//    int magiInv;
+//    int fireInv;
+//    int coldInv;
+//    int acidInv;
+//    int elecInv;
     
     //--------------------------------------
     //--------------------------------------------------------------------------
     
     
-    //szybszy dostep kosztem zasmiecania pamieci?????
-   // public static Spell[] spellBook;
-    
-    //wolniejszy dostep, mniej smieci?????????
-   // public static int[] spellBook;
+    public ArrayList<Spell> spellBook = new ArrayList<>();
+    public ArrayList<int[]> actEffList = new ArrayList<>();
     
 
     
     
-    public Mage(){
+    public Mage(String n){
+        
+    name = n;
+    maxHp = 100;
+    hp = 100;
+    xp = 0;
+    power = 1;
 
 }
     
-    public void castaSpell(Spell s, Mage tar){
-    
+    public void castaSpell(Spell s, Mage tar){    
+        s.execute(this, tar);
     }
+    
+    public void addaSpell(Spell s){
+        spellBook.add(s);
+    }
+    
     
     public void die(){
         System.out.println(this.name+" died!");
     }
+   
+        
+    }
     
     
     
-}
+
